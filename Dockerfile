@@ -1,15 +1,16 @@
-FROM python:3
+FROM python:3.9-slim
 
-WORKDIR /data
+# Working directory
+WORKDIR /app
 
-RUN pip install django==3.2
+# Upgrade pip and install Django
+RUN pip install --no-cache-dir django==3.2
 
+# Project files copy karein
 COPY . .
 
-RUN python manage.py migrate
-
+# Port expose
 EXPOSE 8000
 
-CMD ["python","manage.py","runserver","0.0.0.0:8000"]
-
-
+# Container starting script: pehle migrate karega, phir server start karega
+CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
